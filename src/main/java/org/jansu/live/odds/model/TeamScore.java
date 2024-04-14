@@ -8,6 +8,25 @@ public class TeamScore extends Team {
     private int teamScore;
 
     /**
+     * Constructor
+     * @param teamName
+     */
+    public TeamScore(String teamName) {
+        this.setTeam(teamName);
+        this.setTeamScore(0);
+    }
+
+    /**
+     * Constructor
+     * @param teamName
+     * @param teamScore
+     */
+    public TeamScore(String teamName, int teamScore) {
+        this.setTeam(teamName);
+        this.setTeamScore(teamScore);
+    }
+
+    /**
      * TeamScore setter
      * @param teamScore
      */
@@ -21,14 +40,5 @@ public class TeamScore extends Team {
      */
     public int getTeamScore() {
         return  teamScore;
-    }
-
-    /**
-     * Constructor
-     * @param teamName
-     */
-    public TeamScore(String teamName) {
-        this.setTeam(teamName);
-        this.setTeamScore(0);
     }
 }
