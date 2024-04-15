@@ -26,6 +26,9 @@ public class LiveOddsServiceTest {
 
         int ret = liveOddsService.startMatch("Mexico", "Australia");
         Assertions.assertEquals(0, ret);
+
+        List<Game> liveGames = liveOddsService.getLiveMatches();
+        Assertions.assertEquals(1, liveGames.size());
     }
 
     @Test
@@ -38,6 +41,19 @@ public class LiveOddsServiceTest {
         LiveOddsException liveOddsException = Assertions.assertThrows(LiveOddsException.class, () ->
                 liveOddsService.startMatch("Mexico", "Italy"));
         Assertions.assertEquals("Match is already started.", liveOddsException.getMessage());
+    }
+
+    @Test
+    public void testStartMatch_HomeOrAwayTeamIsAlreadyPlayingMatch() throws LiveOddsException {
+        LiveOddsService liveOddsService = new LiveOddsService();
+
+        int ret = liveOddsService.startMatch("Spain", "Canada");
+        Assertions.assertEquals(0, ret);
+
+        LiveOddsException liveOddsException = Assertions.assertThrows(LiveOddsException.class, () ->
+                liveOddsService.startMatch("Spain", "Italy"));
+        Assertions.assertEquals("Home or away team is already playing a match.",
+                liveOddsException.getMessage());
     }
 
     @Test
