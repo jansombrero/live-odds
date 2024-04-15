@@ -6,9 +6,7 @@ import org.jansu.live.odds.model.TeamScore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LiveOddsServiceTest {
 
@@ -37,6 +35,9 @@ public class LiveOddsServiceTest {
 
         int ret = liveOddsService.startMatch("Mexico", "Italy");
         Assertions.assertEquals(0, ret);
+
+        List<Game> liveGames = liveOddsService.getLiveMatches();
+        Assertions.assertEquals(1, liveGames.size());
 
         LiveOddsException liveOddsException = Assertions.assertThrows(LiveOddsException.class, () ->
                 liveOddsService.startMatch("Mexico", "Italy"));
