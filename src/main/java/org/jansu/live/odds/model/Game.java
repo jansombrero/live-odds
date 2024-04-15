@@ -1,5 +1,6 @@
 package org.jansu.live.odds.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -8,6 +9,12 @@ import java.util.Map;
 public class Game {
 
     private Map<TeamScore, TeamScore> game;
+
+    public Game(TeamScore homeTeamScore, TeamScore awayTeamScore) {
+        Map<TeamScore, TeamScore> mapGame = new HashMap<>();
+        mapGame.put(homeTeamScore, awayTeamScore);
+        this.setGame(mapGame);
+    }
 
     /**
      * Game setter

@@ -7,6 +7,8 @@ public class Team {
 
     private String team;
 
+    public Team() {}
+
     /**
      * Team setter
      * @param team

@@ -1,6 +1,7 @@
 package org.jansu.live.odds.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.jansu.live.odds.exception.LiveOddsException;
 import org.jansu.live.odds.model.Game;
 import org.jansu.live.odds.model.TeamScore;
 
@@ -20,9 +21,9 @@ public class LiveOddsService {
      * @param homeTeam
      * @param awayTeam
      * @return int 0 if successful
-     * @throws Exception Exception is thrown if match couldn't be started.
+     * @throws LiveOddsException LiveOddsException is thrown if match couldn't be started.
      */
-    public int startMatch(String homeTeam, String awayTeam) throws Exception {
+    public int startMatch(String homeTeam, String awayTeam) throws LiveOddsException {
         return 0;
     }
 
@@ -31,9 +32,9 @@ public class LiveOddsService {
      * @param homeTeamScore
      * @param awayTeamScore
      * @return int 0 if successful
-     * @throws Exception Exception is thrown if the score cannot be updated
+     * @throws LiveOddsException LiveOddsException is thrown if the score cannot be updated
      */
-    public int updateScore(TeamScore homeTeamScore, TeamScore awayTeamScore) throws Exception {
+    public int updateScore(TeamScore homeTeamScore, TeamScore awayTeamScore) throws LiveOddsException {
         return 0;
     }
 
@@ -41,9 +42,9 @@ public class LiveOddsService {
      * Finish selected match in progress.
      * @param game
      * @return int 0 if successful
-     * @throws Exception Exception is thrown if match cannot be finished
+     * @throws LiveOddsException LiveOddsException is thrown if match cannot be finished
      */
-    public int finishMatch(Game game) throws Exception {
+    public int finishMatch(Game game) throws LiveOddsException {
         return 0;
     }
 

@@ -12,6 +12,7 @@ public class TeamScore extends Team {
      * @param teamName
      */
     public TeamScore(String teamName) {
+        super();
         this.setTeam(teamName);
         this.setTeamScore(0);
     }
@@ -22,6 +23,7 @@ public class TeamScore extends Team {
      * @param teamScore
      */
     public TeamScore(String teamName, int teamScore) {
+        super();
         this.setTeam(teamName);
         this.setTeamScore(teamScore);
     }
