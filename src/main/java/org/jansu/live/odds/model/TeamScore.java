@@ -14,7 +14,7 @@ public class TeamScore extends Team {
     public TeamScore(String teamName) {
         super();
         this.setTeam(teamName);
-        this.setTeamScore(0);
+        this.teamScore = 0;
     }
 
     /**
@@ -25,7 +25,7 @@ public class TeamScore extends Team {
     public TeamScore(String teamName, int teamScore) {
         super();
         this.setTeam(teamName);
-        this.setTeamScore(teamScore);
+        this.teamScore = teamScore;
     }
 
     /**
@@ -41,6 +41,6 @@ public class TeamScore extends Team {
      * @return int TeamScore member info regarding score
      */
     public int getTeamScore() {
-        return  teamScore;
+        return  this.teamScore;
     }
 }

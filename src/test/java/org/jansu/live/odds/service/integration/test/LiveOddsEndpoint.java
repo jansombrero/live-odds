@@ -44,8 +44,9 @@ public class LiveOddsEndpoint {
 
     @DELETE
     public Response finishMatch(@QueryParam("homeTeam") String home,
-                                @QueryParam("awayTeam") String away) throws LiveOddsException {
-        Game game = new Game(new TeamScore(home), new TeamScore(away));
+                                @QueryParam("awayTeam") String away,
+                                @QueryParam("index") int index) throws LiveOddsException {
+        Game game = new Game(new TeamScore(home), new TeamScore(away), index);
 
         liveOddsService.finishMatch(game);
         return Response.status(204).build();

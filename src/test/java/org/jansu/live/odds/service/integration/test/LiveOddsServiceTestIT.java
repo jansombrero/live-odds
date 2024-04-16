@@ -57,7 +57,7 @@ public class LiveOddsServiceTestIT {
         given()
                 .contentType(MediaType.APPLICATION_JSON)
                 .when()
-                .delete("/live-odds?homeTeam=Germany&?awayTeam=France")
+                .delete("/live-odds?homeTeam=Germany&?awayTeam=France&?index=0")
                 .then()
                 .statusCode(204);
     }

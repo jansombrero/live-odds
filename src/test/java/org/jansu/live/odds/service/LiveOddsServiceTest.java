@@ -57,6 +57,10 @@ public class LiveOddsServiceTest {
                 liveOddsService.startMatch("Spain", "Italy"));
         Assertions.assertEquals("Home or away team is already playing a match.",
                 liveOddsException.getMessage());
+        liveOddsException = Assertions.assertThrows(LiveOddsException.class, () ->
+                liveOddsService.startMatch("Argentina", "Canada"));
+        Assertions.assertEquals("Home or away team is already playing a match.",
+                liveOddsException.getMessage());
     }
 
     @Test
@@ -65,6 +69,9 @@ public class LiveOddsServiceTest {
 
         LiveOddsException liveOddsException = Assertions.assertThrows(LiveOddsException.class, () ->
                 liveOddsService.startMatch("", "Italy"));
+        Assertions.assertEquals("Home or away team contains empty string.", liveOddsException.getMessage());
+        liveOddsException = Assertions.assertThrows(LiveOddsException.class, () ->
+                liveOddsService.startMatch("Spain", ""));
         Assertions.assertEquals("Home or away team contains empty string.", liveOddsException.getMessage());
     }
 
@@ -100,6 +107,19 @@ public class LiveOddsServiceTest {
 
         LiveOddsException liveOddsException = Assertions.assertThrows(LiveOddsException.class, () -> {
             TeamScore homeTeamScore = new TeamScore("Spain", 2);
+            TeamScore awayTeamScore = new TeamScore("Argentina", 3);
+            liveOddsService.updateScore(homeTeamScore, awayTeamScore);
+        });
+        Assertions.assertEquals("Match does not exist.", liveOddsException.getMessage());
+
+        int ret = liveOddsService.startMatch("Mexico", "Italy");
+        Assertions.assertEquals(0, ret);
+
+        List<Game> liveGames = liveOddsService.getLiveMatches();
+        Assertions.assertEquals(1, liveGames.size());
+
+        liveOddsException = Assertions.assertThrows(LiveOddsException.class, () -> {
+            TeamScore homeTeamScore = new TeamScore("Mexico", 2);
             TeamScore awayTeamScore = new TeamScore("Argentina", 3);
             liveOddsService.updateScore(homeTeamScore, awayTeamScore);
         });
@@ -216,7 +236,7 @@ public class LiveOddsServiceTest {
         LiveOddsException liveOddsException = Assertions.assertThrows(LiveOddsException.class, () -> {
             TeamScore homeTeamScore = new TeamScore("Brazil", 5);
             TeamScore awayTeamScore = new TeamScore("France", 5);
-            Game game = new Game(homeTeamScore, awayTeamScore);
+            Game game = new Game(homeTeamScore, awayTeamScore, 0);
             liveOddsService.finishMatch(game);
         });
 

@@ -22,6 +22,6 @@ public class Team {
      * @return String Team name
      */
     public String getTeam() {
-        return team;
+        return this.team;
     }
 }
