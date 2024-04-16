@@ -51,6 +51,14 @@
     </dependency>
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Jan Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/jansombrero/live-odds</url>
+    </repository>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
