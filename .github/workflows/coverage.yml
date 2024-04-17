@@ -29,13 +29,13 @@ jobs:
       uses: 'actions/upload-artifact@v4'
       with:
         name: report.xml
-        path: ${{ github.workspace }}/target/jacoco-report/jacoco.xml
+        path: ${{ github.workspace }}/target/site/jacoco-unit-test-coverage-report/jacoco.xml
 
     - name: Jacoco Report to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.6.1
       with:
-        paths: ${{ github.workspace }}/target/jacoco-report/jacoco.xml
+        paths: ${{ github.workspace }}/target/site/jacoco-unit-test-coverage-report/jacoco.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 90
         min-coverage-changed-files: 90
@@ -45,7 +45,7 @@ jobs:
       uses: cicirello/jacoco-badge-generator@v2.11.0
       with:
         generate-branches-badge: true
-        jacoco-csv-file: target/jacoco-report/jacoco.csv
+        jacoco-csv-file: target/site/jacoco-unit-test-coverage-report/jacoco.csv
 
     - name: Commit and push the badge (if it changed)
       uses: EndBug/add-and-commit@v7
