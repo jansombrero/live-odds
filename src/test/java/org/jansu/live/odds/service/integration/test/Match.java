@@ -8,8 +8,8 @@ public class Match {
     public Match() {}
 
     public Match(String home, String away) {
-        this.setHomeTeam(home);
-        this.setAwayTeam(away);
+        this.homeTeam = home;
+        this.awayTeam = away;
     }
 
     public void setHomeTeam(String homeTeam) {

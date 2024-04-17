@@ -5,11 +5,13 @@ public class MatchScore extends Match {
     private int homeTeamScore;
     private int awayTeamScore;
 
+    public MatchScore() {}
+
     public MatchScore(String home, String away, int homeScore, int awayScore) {
         this.setHomeTeam(home);
-        this.setHomeTeamScore(homeScore);
+        this.homeTeamScore = homeScore;
         this.setAwayTeam(away);
-        this.setAwayTeamScore(awayScore);
+        this.awayTeamScore = awayScore;
     }
 
     public void setHomeTeamScore(int homeTeamScore) {

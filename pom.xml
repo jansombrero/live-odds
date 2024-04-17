@@ -4,7 +4,7 @@
 
   <groupId>org.jansu</groupId>
   <artifactId>live-odds</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 
   <properties>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -49,6 +49,11 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-jsonb</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <distributionManagement>
@@ -62,82 +67,50 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
+        <version>3.2.5</version>
         <configuration>
-          <excludedGroups>integration</excludedGroups>
-          <systemPropertyVariables>
-            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-            <maven.home>${maven.home}</maven.home>
-          </systemPropertyVariables>
+          <argLine>${surefire.jacoco.args}</argLine>
         </configuration>
-        <executions>
-          <execution>
-            <id>integration-tests</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <excludedGroups>!integration</excludedGroups>
-              <groups>integration</groups>
-              <systemPropertyVariables>
-                <jacoco-agent.destfile>${project.build.directory}/jacoco-quarkus.exec</jacoco-agent.destfile>
-              </systemPropertyVariables>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
+        <version>0.8.12</version>
         <executions>
           <execution>
-            <id>default-prepare-agent</id>
+            <id>before-unit-test-execution</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
             <configuration>
-              <exclClassLoaders>*QuarkusClassLoader</exclClassLoaders>
-              <destFile>${project.build.directory}/jacoco-quarkus.exec</destFile>
-              <append>true</append>
+              <destFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</destFile>
+              <propertyName>surefire.jacoco.args</propertyName>
             </configuration>
           </execution>
           <execution>
-            <id>report</id>
-            <phase>post-integration-test</phase>
+            <id>after-unit-test-execution</id>
+            <phase>test</phase>
             <goals>
               <goal>report</goal>
             </goals>
             <configuration>
-              <dataFile>${project.build.directory}/jacoco-quarkus.exec</dataFile>
-              <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
+              <dataFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</dataFile>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
               <excludes>
-                <exclude>**/*org/jansu/live/odds/model/**</exclude>
+                <exclude>**/*org/jansu/live/odds/model/**/*</exclude>
               </excludes>
             </configuration>
           </execution>
           <execution>
-            <id>jacoco-check</id>
+            <id>check</id>
+            <phase>verify</phase>
             <goals>
               <goal>check</goal>
             </goals>
-            <phase>post-integration-test</phase>
             <configuration>
-              <dataFile>${project.build.directory}/jacoco-quarkus.exec</dataFile>
+              <dataFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</dataFile>
               <rules>
                 <rule>
                   <element>BUNDLE</element>
@@ -166,49 +139,31 @@
                 </rule>
               </rules>
               <excludes>
-                <exclude>**/*org/jansu/live/odds/model/**</exclude>
+                <exclude>**/*org/jansu/live/odds/model/**/*</exclude>
               </excludes>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${surefire-plugin.version}</version>
+        <configuration>
+          <systemPropertyVariables>
+            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+            <maven.home>${maven.home}</maven.home>
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>native</id>
-      <activation>
-        <property>
-          <name>native</name>
-        </property>
-      </activation>
-      <properties>
-        <quarkus.package.type>native</quarkus.package.type>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>${surefire-plugin.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-                <configuration>
-                  <systemPropertyVariables>
-                    <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                    <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                    <maven.home>${maven.home}</maven.home>
-                  </systemPropertyVariables>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
