@@ -18,3 +18,6 @@ To compile the library you will need:
 
 You can run all the tests (Unit and Integration) via the command `mvn clean verify`.
 It will generate a coverage report in “target/site/jacoco-unit-test-coverage-report” for the UnitTest.
+
+### Note
+Currently integration test are excluded from code coverage. One integration test is added as an example how this service can be injected to the REST API.
